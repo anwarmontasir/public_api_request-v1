@@ -43,13 +43,14 @@ function gatherUserData(results) {
         const user = {
             name: `${result.name.first} ${result.name.last}`,
             email: result.email,
-            location: userLocation,
             image: {
                 medium: result.picture.medium,
                 large: result.picture.large
             },
             cell: result.cell,
             birthday: `${birthMonth}/${birthDay}/${birthYear}`,
+            city: result.location.city,
+            location: userLocation,
             address: `${result.location.street.number} ${result.location.street.name}, ${userLocation}, ${result.location.postcode}`
         }
         // add object to array
@@ -59,9 +60,9 @@ function gatherUserData(results) {
 
 // append users to DOM
 function appendUsers(userArray) {
-    userArray.forEach(user => {
+    userArray.forEach((user, i) => {
         const userHTML = `
-        <div class="card">
+        <div class="card card-${i}">
             <div class="card-img-container">
                 <img class="card-img" src="${user.image.medium}" alt="${user.name} profile picture">
             </div>
@@ -72,6 +73,36 @@ function appendUsers(userArray) {
             </div>
         </div>
         `;
-        gallery.insertAdjacentHTML('beforeend', userHTML); 
+        gallery.insertAdjacentHTML('beforeend', userHTML);
+        handleCardClick(i);
+    })
+}
+
+// add click event
+function handleCardClick(i) {
+    document.querySelector(`.card-${i}`).addEventListener('click', evt => {
+       const modalHTML = `
+       <div class="modal-container">
+            <div class="modal">
+                <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                <div class="modal-info-container">
+                    <img class="modal-img" src="${userArray[i].image.large}" alt="profile picture">
+                    <h3 id="name" class="modal-name cap">${userArray[i].name}</h3>
+                    <p class="modal-text">${userArray[i].email}</p>
+                    <p class="modal-text cap">${userArray[i].city}</p>
+                    <hr>
+                    <p class="modal-text">${userArray[i].cell}</p>
+                    <p class="modal-text">${userArray[i].address}</p>
+                    <p class="modal-text">Birthday: ${userArray[i].birthday}</p>
+                </div>
+            </div>
+
+            <div class="modal-btn-container">
+                <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+                <button type="button" id="modal-next" class="modal-next btn">Next</button>
+            </div>
+        </div>
+       `;
+        document.querySelector('body').insertAdjacentHTML('beforeend', modalHTML);
     })
 }
