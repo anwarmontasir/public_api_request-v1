@@ -1,3 +1,5 @@
+// number of users
+const numberOfUsers = 12;
 // DOM element for attaching gallery
 const gallery = document.getElementById('gallery');
 // store user info in array of objects
@@ -12,7 +14,7 @@ function fetchData(url) {
 }
 
 // fetch random user data
-fetchData('https://randomuser.me/api/?results=12')
+fetchData(`https://randomuser.me/api/?results=${numberOfUsers}`)
 .then(data => {
     // add data to array of objects
     gatherUserData(data.results);
@@ -62,7 +64,7 @@ function gatherUserData(results) {
 function appendUsers(userArray) {
     userArray.forEach((user, i) => {
         const userHTML = `
-        <div class="card card-${i}">
+        <div class="card" data-card="${i}">
             <div class="card-img-container">
                 <img class="card-img" src="${user.image.medium}" alt="${user.name} profile picture">
             </div>
@@ -80,7 +82,7 @@ function appendUsers(userArray) {
 
 // add click event
 function handleCardClick(i) {
-    document.querySelector(`.card-${i}`).addEventListener('click', () => {
+    document.querySelector(`[data-card='${i}']`).addEventListener('click', () => {
        const modalHTML = `
        <div class="modal-container">
             <div class="modal">
@@ -97,7 +99,7 @@ function handleCardClick(i) {
                 </div>
             </div>
 
-            <div class="modal-btn-container">
+            <div class="modal-btn-container" data-nav=${i}>
                 <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
                 <button type="button" id="modal-next" class="modal-next btn">Next</button>
             </div>
@@ -109,6 +111,16 @@ function handleCardClick(i) {
 }
 
 function handleModalClick() {
+    document.querySelector('.modal-prev').addEventListener('click', evt => {
+        const currentUser = parseInt(document.querySelector('.modal-btn-container').getAttribute('data-nav'));
+        const prevUser = currentUser > 0 ? currentUser - 1 : numberOfUsers - 1;
+        updateModal(prevUser);
+    });
+    document.querySelector('.modal-next').addEventListener('click', evt => {
+        const currentUser = parseInt(document.querySelector('.modal-btn-container').getAttribute('data-nav'));
+        const nextUser = currentUser < numberOfUsers - 1 ? currentUser + 1 : 0;
+        updateModal(nextUser);
+    });
     document.querySelector('.modal-container').addEventListener('click', evt => {
         if (evt.target.className === 'modal-container') {
             closeModal();
@@ -116,7 +128,20 @@ function handleModalClick() {
     });
     document.querySelector('.modal-close-btn').addEventListener('click', () => {
         closeModal();
-    })
+    });
+}
+
+function updateModal(i) {
+    document.querySelector('.modal-btn-container').setAttribute('data-nav', i);
+    document.querySelector('.modal-img').setAttribute('src', userArray[i].image.large);
+    document.querySelector('.modal-name').textContent = userArray[i].name;
+    // <h3 id="name" class="modal-name cap">${userArray[i].name}</h3>
+    //                 <p class="modal-text">${userArray[i].email}</p>
+    //                 <p class="modal-text cap">${userArray[i].city}</p>
+    //                 <hr>
+    //                 <p class="modal-text">${userArray[i].cell}</p>
+    //                 <p class="modal-text">${userArray[i].address}</p>
+    //                 <p class="modal-text">Birthday: ${userArray[i].birthday}</p>
 }
 
 function closeModal() {
