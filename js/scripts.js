@@ -88,14 +88,14 @@ function handleCardClick(i) {
             <div class="modal">
                 <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
                 <div class="modal-info-container">
-                    <img class="modal-img" src="${userArray[i].image.large}" alt="profile picture">
+                    <img class="modal-img" src="${userArray[i].image.large}" alt="${userArray[i].name} profile picture">
                     <h3 id="name" class="modal-name cap">${userArray[i].name}</h3>
-                    <p class="modal-text">${userArray[i].email}</p>
-                    <p class="modal-text cap">${userArray[i].city}</p>
+                    <p class="modal-text" data-modal-text="email">${userArray[i].email}</p>
+                    <p class="modal-text cap" data-modal-text="city">${userArray[i].city}</p>
                     <hr>
-                    <p class="modal-text">${userArray[i].cell}</p>
-                    <p class="modal-text">${userArray[i].address}</p>
-                    <p class="modal-text">Birthday: ${userArray[i].birthday}</p>
+                    <p class="modal-text" data-modal-text="cell">${userArray[i].cell}</p>
+                    <p class="modal-text" data-modal-text="address">${userArray[i].address}</p>
+                    <p class="modal-text" data-modal-text="birthday">Birthday: ${userArray[i].birthday}</p>
                 </div>
             </div>
 
@@ -135,13 +135,11 @@ function updateModal(i) {
     document.querySelector('.modal-btn-container').setAttribute('data-nav', i);
     document.querySelector('.modal-img').setAttribute('src', userArray[i].image.large);
     document.querySelector('.modal-name').textContent = userArray[i].name;
-    // <h3 id="name" class="modal-name cap">${userArray[i].name}</h3>
-    //                 <p class="modal-text">${userArray[i].email}</p>
-    //                 <p class="modal-text cap">${userArray[i].city}</p>
-    //                 <hr>
-    //                 <p class="modal-text">${userArray[i].cell}</p>
-    //                 <p class="modal-text">${userArray[i].address}</p>
-    //                 <p class="modal-text">Birthday: ${userArray[i].birthday}</p>
+    document.querySelector('[data-modal-text="email"]').textContent = userArray[i].email;
+    document.querySelector('[data-modal-text="city"]').textContent = userArray[i].city;
+    document.querySelector('[data-modal-text="cell"]').textContent = userArray[i].cell;
+    document.querySelector('[data-modal-text="address"]').textContent = userArray[i].address;
+    document.querySelector('[data-modal-text="birthday"]').textContent = `Birthday: ${userArray[i].birthday}`;
 }
 
 function closeModal() {
