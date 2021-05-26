@@ -80,7 +80,7 @@ function appendUsers(userArray) {
 
 // add click event
 function handleCardClick(i) {
-    document.querySelector(`.card-${i}`).addEventListener('click', evt => {
+    document.querySelector(`.card-${i}`).addEventListener('click', () => {
        const modalHTML = `
        <div class="modal-container">
             <div class="modal">
@@ -104,5 +104,21 @@ function handleCardClick(i) {
         </div>
        `;
         document.querySelector('body').insertAdjacentHTML('beforeend', modalHTML);
+        handleModalClick();
     })
+}
+
+function handleModalClick() {
+    document.querySelector('.modal-container').addEventListener('click', evt => {
+        if (evt.target.className === 'modal-container') {
+            closeModal();
+        };
+    });
+    document.querySelector('.modal-close-btn').addEventListener('click', () => {
+        closeModal();
+    })
+}
+
+function closeModal() {
+    document.querySelector('.modal-container').remove();
 }
