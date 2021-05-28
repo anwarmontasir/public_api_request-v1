@@ -2,7 +2,7 @@
 
 Treehouse FSJS Project 5.
 
-Demo at 
+Demo at https://anwarmontasir.github.io/public_api_request-v1/.
 
 ## Core features
 
