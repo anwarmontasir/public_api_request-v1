@@ -92,7 +92,7 @@ function appendUsers(userArray) {
     })
 }
 
-// add click event
+// if card is clicked, create and append modal
 function handleCardClick(i) {
     document.querySelector(`[data-card='${i}']`).addEventListener('click', () => {
        const modalHTML = `
@@ -122,6 +122,7 @@ function handleCardClick(i) {
     })
 }
 
+// create listeners for previous, next, close modal
 function handleModalClick() {
     document.querySelector('.modal-prev').addEventListener('click', evt => {
         const currentUser = parseInt(document.querySelector('.modal-btn-container').getAttribute('data-nav'));
@@ -133,6 +134,7 @@ function handleModalClick() {
         const nextUser = currentUser < numberOfUsers - 1 ? currentUser + 1 : 0;
         updateModal(nextUser);
     });
+    /* close modal if background is clicked */
     document.querySelector('.modal-container').addEventListener('click', evt => {
         if (evt.target.className === 'modal-container') {
             closeModal();
@@ -143,6 +145,7 @@ function handleModalClick() {
     });
 }
 
+/* if prev or next is clicked, this function updates modal content */
 function updateModal(i) {
     document.querySelector('.modal-btn-container').setAttribute('data-nav', i);
     document.querySelector('.modal-img').setAttribute('src', userArray[i].image.large);
@@ -154,16 +157,21 @@ function updateModal(i) {
     document.querySelector('[data-modal-text="birthday"]').textContent = `Birthday: ${userArray[i].birthday}`;
 }
 
+/* remove modal from DOM */
 function closeModal() {
     document.querySelector('.modal-container').remove();
 }
 
+/* if keyup in search box, filter user array
+   (compare lowercase username to lowercase search text) */
 function activateSearch(userArray) {
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('keyup', evt => {
         const searchTerm = searchInput.value.toLowerCase();
         const filteredArray = userArray.filter(user => user.name.toLowerCase().includes(searchTerm));
+        /* remove old gallery */
         gallery.innerHTML = '';
+        /* append filtered list of users */
         appendUsers(filteredArray);
     })
 }

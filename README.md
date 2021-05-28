@@ -16,6 +16,8 @@ Demo at https://anwarmontasir.github.io/public_api_request-v1/.
 
 * Next and Previous buttons cycle through results in modal
 
+* Modal closes when X or background is clicked
+
 * CSS style adjustments (changed look of logo, profile card, next and previous buttons)
 
 ## Accessibility improvemements
