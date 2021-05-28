@@ -215,7 +215,8 @@ header h1 {
     color: rgba(255, 255, 255, 0.9);
     padding: 0.75em 1.5em;
     background: #0166c3;
-    border-radius: 0.35em;
+    border-radius: 0.5em;
+    border: none;
     transition: .4s ease-out;
   }
   
@@ -271,5 +272,10 @@ header h1 {
     .btn:hover {
         background: rgba(255, 255, 255, 1);
         color: rgba(25, 25, 25, 1); 
+    }
+
+    .modal-btn-container .btn:hover {
+        color: white;
+        background: #013693;
     }
 }
