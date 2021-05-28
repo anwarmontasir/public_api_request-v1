@@ -5,6 +5,16 @@ const gallery = document.getElementById('gallery');
 // store user info in array of objects
 const userArray = [];
 
+// append search (why is this done w/JS?)
+const searchHTML = `
+  <form action="#" method="get">
+    <label for="search-input" class="sr-only">Search</label>
+    <input type="search" id="search-input" class="search-input" placeholder="Search...">
+    <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+  </form>`;
+
+document.querySelector('.search-container').innerHTML = searchHTML;
+
 // function for fetching data
 function fetchData(url) {
     return fetch(url)
@@ -14,12 +24,14 @@ function fetchData(url) {
 }
 
 // fetch random user data
-fetchData(`https://randomuser.me/api/?results=${numberOfUsers}`)
+fetchData(`https://randomuser.me/api/?results=${numberOfUsers}&nat=au,br,ca,ch,de,dk,es,fi,fr,gb,ie,no,nl,nz,tr,us`)
 .then(data => {
     // add data to array of objects
     gatherUserData(data.results);
     // append user images to DOM
     appendUsers(userArray);
+    // activate search
+    activateSearch(userArray);
 })
 
 // check if server response is ok
@@ -144,4 +156,14 @@ function updateModal(i) {
 
 function closeModal() {
     document.querySelector('.modal-container').remove();
+}
+
+function activateSearch(userArray) {
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('keyup', evt => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredArray = userArray.filter(user => user.name.toLowerCase().includes(searchTerm));
+        gallery.innerHTML = '';
+        appendUsers(filteredArray);
+    })
 }
