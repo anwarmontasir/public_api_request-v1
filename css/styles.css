@@ -29,9 +29,7 @@ header {
 header h1 {
     font-size: 1.75em;
     font-weight: 700;
-    background: linear-gradient(to right, #bf2320, #c45f81, #4e2792, #0166c3, #0696aa, #137017, #becf11, #d97805, #cf2702);
-    background-clip: text;
-    color: transparent;
+    color: #bf2320;
     margin-top: 35px;
 }
 
